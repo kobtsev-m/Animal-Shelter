@@ -1,0 +1,106 @@
+@import './base/base';
+@import 'header';
+@import 'gallery';
+@import 'about';
+
+body {
+	background-color: rgba($nav-background, 0.85);
+	font-size: 100px;
+
+	@include lg {
+		font-size: 80px !important;
+	}
+	@include sm {
+		font-size: 72px !important;
+	}
+	@include xs {
+		font-size: 64px !important;
+	}
+}
+
+.container-fluid {
+	min-height: 100vh;
+	padding-top: 90px;
+}
+
+.category-fluid {
+	background-color: #fff;
+	font-size: 20px;
+}
+
+.main-fluid {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-end;
+	padding-right: 1em;
+	padding-left: 1em;
+	@include cover-background;
+	@include filter(grayscale(0.1) brightness(0.8));
+
+	.jumbotron {
+		max-width: 7em;
+		background: rgba($nav-background, 0.8);
+		color: #fff;
+
+		.display-4 {
+			font-size: 60%;
+			white-space: nowrap;
+		}
+
+		i.fas.fa-paw {
+			@include sm {
+				display: none;
+			}
+		}
+
+		hr {
+			background-color: rgba(#fff, 0.7);
+		}
+
+		p.lead {
+			font-size: 22%;
+			@include sm {
+				font-size: 18px;
+			}
+		}
+
+		p:not(.lead) {
+			font-size: 18%;
+			@include sm {
+				display: none;
+			}
+		}
+
+		.btn {
+			width: 100%;
+		}
+	}
+
+	@include sm {
+		justify-content: center;
+		padding: 110px 0.7em;
+	}
+	@include xs {
+		padding: 110px 0.4em;
+	}
+}
+
+.display-4 {
+	font-size: 3rem;
+	line-height: 1.2;
+}
+
+.back-link {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 2.5em;
+
+	i {
+		position: absolute;
+		top: 50%;
+		left: 0.5em;
+		@include transform(translateY(-50%));
+	}
+}

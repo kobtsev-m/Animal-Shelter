@@ -1,0 +1,220 @@
+@import './base/mixins';
+@import './base/variables';
+
+// Gallery home styles
+.pet-list {
+	.display-4 {
+		font-size: 2.5em;
+		line-height: 1.2;
+	}
+	.btn-create {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 3.5em;
+	}
+	.btn-group .divider {
+		width: 1px;
+		height: 2.25rem;
+		background-color: rgba(#ddd, 0.5);
+		z-index: 2;
+	}
+	.carousel-inner {
+		height: 300px;
+	}
+	.card-img-top {
+		height: 300px;
+		@include cover-background;
+	}
+	.pagination {
+		.page-item .page-link {
+			color: $nav-background;
+		}
+		.page-item.active .page-link {
+			color: #fff;
+			background-color: rgba($nav-background, 0.8);
+			border-color: rgba($nav-background, 0.8);
+		}
+		.page-item.disabled .page-link {
+			color: rgba(#6c757d, 0.8);
+			border-color: #dee2e6;
+		}
+	}
+}
+
+// Pet detail styles
+.pet-detail {
+	width: 100%;
+	font-size: 20px;
+	.card-body {
+		&-photo {
+			width: 50%;
+			&-first {
+				height: 500px;
+				@include sm {
+					height: 38vh;
+				}
+				@include cover-background;
+				@include border-radius(6px);
+			}
+			&-other {
+				height: 150px;
+				@include sm {
+					height: 12vh;
+				}
+				@include cover-background;
+				@include border-radius(6px);
+			}
+			&-empty {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				height: 650px;
+				border: 1px solid rgba(#000, 0.25);
+				@include sm {
+					height: 50vh;
+				}
+				@include border-radius(6px);
+				span {
+					max-width: 220px;
+				}
+			}
+		}
+		hr {
+			border-top: 1px solid rgba(0, 0, 0, 0.15);
+		}
+	}
+}
+
+// Cofig lightbox for photos
+.lg {
+	&-toolbar {
+		height: 0.8em;
+	}
+	#lg-counter {
+		position: absolute;
+	}
+	#lg-download {
+		@include sm {
+			display: none;
+		}
+	}
+	#lg-actual-size {
+		@include xs {
+			display: none;
+		}
+	}
+}
+
+// Pet create form style
+.pet-create {
+	padding-top: 1em;
+	font-size: 15px;
+
+	.form-group {
+		position: relative;
+		small {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
+	.form-row-photos {
+		position: relative;
+		margin-top: 1em;
+		legend {
+			position: absolute;
+			top: -0.8em;
+			left: 1.5em;
+			width: auto;
+			background-color: #fff;
+			z-index: 2;
+		}
+		.formset-photos {
+			position: relative;
+			display: flex;
+			flex-wrap: nowrap;
+			padding: 2.5em 5.4em;
+			border: 1px solid rgba(#000, 0.25);
+			overflow-x: hidden;
+			@include border-radius(6px);
+
+			.row-add {
+				position: relative;
+				flex: 0 0 auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 200px;
+				height: 245px;
+				padding: 20px;
+
+				&::after {
+					content: '';
+					position: absolute;
+					right: -2em;
+					width: 1px;
+					height: 1px;
+				}
+			}
+
+			.dynamic-form {
+				position: relative;
+				flex: 0 0 auto;
+				margin-right: 1em;
+
+				.fileinput {
+					margin: 0 !important;
+					&-new,
+					&-preview {
+						width: 200px;
+						height: 200px;
+					}
+					.btn {
+						width: 200px;
+					}
+				}
+				.row-delete {
+					position: absolute;
+					right: 0;
+					width: 2em;
+					height: 2em;
+					line-height: 1em;
+				}
+			}
+			@include sm {
+				padding: 2.5em 2.4em !important;
+				overflow-x: scroll !important;
+			}
+		}
+		.formset-prev,
+		.formset-next {
+			position: absolute;
+			top: 50%;
+			justify-content: center;
+			align-items: center;
+			width: 2em;
+			height: 2em;
+			font-size: 170%;
+			color: #fff;
+			background-color: rgba(#343a3f, 0.8);
+			cursor: pointer;
+			@include border-radius(50%);
+			@include transform(translateY(-50%));
+		}
+		.formset-prev {
+			left: 0.5em;
+		}
+		.formset-next {
+			right: 0.5em;
+		}
+		.formset-prev:hover,
+		.formset-next:hover {
+			color: #fff;
+			background-color: rgba(#343a3f, 0.9);
+		}
+	}
+}

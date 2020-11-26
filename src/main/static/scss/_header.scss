@@ -1,0 +1,186 @@
+@import './base/mixins';
+@import './base/variables';
+
+// NavBar style
+.navbar {
+	justify-content: center;
+	height: 90px !important;
+	font-size: 15px;
+	background-color: rgba($nav-background, 0.9) !important;
+}
+
+// NavBar toggler style
+.navbar-button {
+	position: relative;
+	width: 1.4em;
+	height: 1.6em;
+
+	&-burger,
+	&-burger::before,
+	&-burger::after {
+		width: 1.4em;
+		height: 0.1em;
+		background: rgba(#fff, 0.8);
+		@include border-radius(0.1em);
+		@include box-shadow(0 0.01em 0.05em rgba(#000, 0.3));
+		@include transition(all 0.4s ease-in-out);
+	}
+	&-burger::before,
+	&-burger::after {
+		content: '';
+		position: absolute;
+		left: 0;
+	}
+	&-burger::before {
+		@include transform(translateY(-0.4em));
+	}
+	&-burger::after {
+		@include transform(translateY(0.4em));
+	}
+}
+
+// NavBar toggler animaiton
+.navbar-toggler {
+	position: absolute;
+	top: 45px;
+	left: 0.75rem;
+	@include transform(translateY(-50%));
+	border: none;
+	color: rgba(#fff, 0.6) !important;
+	&:focus {
+		outline: none;
+	}
+}
+.navbar-toggler.toggled {
+	.navbar-button-burger {
+		background: transparent;
+		@include box-shadow(none);
+		@include transform(translateX(-0.8em));
+		&::before {
+			@include transform(rotate(45deg) translate(0.6em, -0.6em));
+		}
+		&::after {
+			@include transform(rotate(-45deg) translate(0.6em, 0.6em));
+		}
+	}
+}
+.navbar-brand.title-lg {
+	display: block;
+	@include xs {
+		display: none;
+	}
+}
+.navbar-brand.title-xs {
+	display: none;
+	@include xs {
+		display: block;
+	}
+}
+
+// Sidemenu nav style
+.sidemenu {
+	position: fixed;
+	top: 0;
+	right: 100%;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(#000, 0.7);
+	overflow-x: hidden;
+	overflow-y: hidden;
+	padding-top: 90px;
+	z-index: 1020;
+
+	&-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 1em;
+		padding: 0.7em 1em;
+		@include xl {
+			grid-template-columns: 1fr;
+		}
+		@include sm {
+			padding: 8vw 12vw;
+		}
+	}
+	.nav {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: #fff;
+		background-color: rgba(#000, 0.6);
+		border: 0.3em solid rgba(#000, 0.6);
+
+		&__item {
+			position: relative;
+			width: 2.2em;
+			height: 2.2em;
+			cursor: pointer;
+			&::before {
+				position: absolute;
+				top: 5%;
+				left: 8%;
+				font-family: $montserrat;
+				font-size: 100%;
+				font-weight: 700;
+				@include opacity(0.4);
+			}
+			&:hover {
+				color: #fc784f;
+			}
+			@include sm {
+				height: 25vh;
+			}
+		}
+		&__link {
+			position: absolute;
+			top: 38%;
+			left: 26%;
+			font-family: $abril;
+			font-size: 50%;
+		}
+		@for $i from 1 through 3 {
+			&__item:nth-of-type(#{$i})::before {
+				content: '0' + $i;
+			}
+		}
+		@include xl {
+			background: none;
+		}
+		@include sm {
+			border: 0;
+		}
+	}
+	@include xl {
+		background-color: rgba(#000, 0.85);
+	}
+}
+
+// Sidemenu preview style
+.preview-box {
+	position: relative;
+	div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: none;
+		max-width: 50em;
+		width: 100%;
+		height: 100%;
+		@include cover-background;
+		@include filter(brightness(0.9));
+		span {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			@include transform(translate(-50%, -50%));
+			font-family: $montserrat;
+			font-size: 80%;
+			font-weight: 800;
+			color: white;
+			text-shadow: 4px 4px 1px #000000;
+		}
+	}
+	@include xl {
+		display: none;
+	}
+}

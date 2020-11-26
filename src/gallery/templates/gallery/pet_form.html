@@ -1,0 +1,31 @@
+{% extends 'gallery/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
+{% endblock %}
+
+{% block gallery_content %}
+
+    <a class="btn btn-light back-link" href="{{ last_page }}">
+        <i class="fas fa-chevron-left ml-1"></i>
+        <span>Back</span>
+    </a>
+
+    <form
+        class="pet-create"
+        action="{% url 'gallery:pet-create' %}"
+        method="post"
+        enctype="multipart/form-data"
+    >
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.min.js"></script>
+    <script src="{% static 'js/pet_form.js' %}"></script>
+{% endblock %}

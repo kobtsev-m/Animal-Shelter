@@ -1,0 +1,83 @@
+{% extends 'gallery/base.html' %}
+{% load staticfiles %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.10.0/css/lightgallery.min.css" integrity="sha512-gk6oCFFexhboh5r/6fov3zqTCA2plJ+uIoUx941tQSFg6TNYahuvh1esZVV0kkK+i5Kl74jPmNJTTaHAovWIhw==" crossorigin="anonymous" />
+{% endblock %}
+
+{% block title %}
+    {{ object.name|title }}
+{% endblock %}
+
+{% block gallery_content %}
+
+<a class="btn btn-light back-link" href="{{ last_page }}">
+    <i class="fas fa-chevron-left ml-1"></i>
+    <span>Back</span>
+</a>
+
+<div class="card text-white bg-dark pet-detail mt-4">
+    <div class="card-header">Pet detail</div>
+    <div class="card-body row justify-content-center">
+        {% if object.petphoto_set.first %}
+            <div class="col-12 col-md-7 card-body-photo row">
+                <a class="col-12 p-1" href="{{ object.petphoto_set.first.image.url }}">
+                    <div
+                        class="card-body-photo-first"
+                        style="background-image: url({{ object.petphoto_set.first.image.url }})"
+                    ></div>
+                </a>
+                {% for photo in object.petphoto_set.all %}
+                {% if forloop.counter != 1 %}
+                    <a class="col p-1 pt-2" href="{{ photo.image.url }}">
+                        <div
+                            class="card-body-photo-other"
+                            style="background-image: url({{ photo.image.url }})"
+                        ></div>
+                    </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="col-12 col-md-7 row">
+                <div class="card-body-photo-empty">
+                    <span class="text-center">
+                        There is no photo uploaded yet
+                        <i class="far fa-frown"></i>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-12 col-md-5 mt-4 mt-md-2 ml-0 ml-md-3">
+            <h5 class="card-title">{{ object.name }}</h5>
+            <p class="card-text">{{ object.description }}</p>
+            <hr>
+            <p class="card-text">
+                {{ object.category|title }}{% if object.breed %}, {{ object.breed|title }}{% endif %}
+            </p>
+            <hr>
+            <p class="card-text">
+                <span class="undeline">Gender:</span>
+                <span>{{ object.gender|title }}</span>
+            </p>
+            <hr>
+            <p class="card-text">
+                <span class="undeline">Age:</span>
+                <span>{{ object.age }} years</span>
+            </p>
+            <hr>
+            <p class="card-text">
+                <span class="undeline">On site from:</span>
+                <span>{{ object.uploaded|date:"M m, H:i" }}</span>
+            </p>
+            <hr>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.10.0/js/lightgallery-all.min.js" integrity="sha512-Qpvw3WG46QyOqV/YS9BosbxEbMKPREA+QS+iWAKXfvb/87tdfsGGQdT7vqYbQzBOgLvF2I/MHMacA86oURHsCw==" crossorigin="anonymous"></script>
+    <script src="{% static 'js/pet_detail.js' %}"></script>
+{% endblock %}

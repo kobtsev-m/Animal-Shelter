@@ -1,0 +1,21 @@
+{% load crispy_forms_tags %}
+
+{{ formset.management_form|crispy }}
+
+{% for form in formset.forms %}
+    <form class="d-flex" method="post" enctype="multipart/form-data">
+        {% crispy form %}
+    </form>
+{% endfor %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.formset@1.3.0/src/jquery.formset.js" integrity="sha256-n9x93YCKpFml/sIJXlRbg8Nhl2+GJ1BiUpFuAJ2Juqg=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $('.formset_row-{{ formset.prefix }}').formset({
+        addText: '<i class="fas fa-plus"></i>',
+        deleteText: '<i class="fas fa-times"></i>',
+        prefix: '{{ formset.prefix }}',
+        deleteCssClass: 'col btn btn-danger row-delete',
+        addCssClass: 'btn btn-light row-add'
+    });
+</script>

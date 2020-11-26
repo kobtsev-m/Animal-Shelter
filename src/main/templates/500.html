@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class="container-fluid category-fluid">
+    <div class="container category-container py-4 py-md-5">
+        <div class="row d-none d-md-flex justify-content-center">
+            <span class="display-4">Something went wrong. Try again later.</span>
+        </div>
+        <div class="row d-flex d-md-none justify-content-center">
+            <span class="display-4">Something went wrong</span>
+        </div>
+        <div class="row mt-4 mt-md-5">
+            <a class="btn btn-lg btn-light w-100" href="{% url 'main:home' %}">
+                Go to main page
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

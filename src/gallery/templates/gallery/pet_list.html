@@ -1,0 +1,177 @@
+{% extends 'gallery/base.html' %}
+{% load staticfiles %}
+
+{% block gallery_content%}
+
+<div class="pet-list">
+    <div class="row align-items-center">
+        <div class="col-sm-6 col-md-8 d-none d-sm-block">
+            <span class="display-4">Animals</span>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <a class="btn btn-dark btn-create" href="{% url 'gallery:pet-create' %}">
+                Create an application
+            </a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <form class="form-inline form-search w-100">
+            <div class="col-12 col-md-6 col-lg-8">
+                <input class="form-control w-100" type="search" name="search" placeholder="What're we lookng for?">
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mt-3 mt-md-0 btn-group">
+                <button type="submit" class="btn btn-light">Search</button>
+                <div class="divider"></div>
+                <button class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                    <span>Sort by</span><span class="sr-only"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <button type="submit" name="sort" value="category" class="dropdown-item">
+                        Category
+                    </button>
+                    <button type="submit" name="sort" value="age" class="dropdown-item">
+                        Pet age
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button type="submit" name="sort" value="uploaded" class="dropdown-item">
+                        Latest uploaded
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% if search_query or sorted_by %}
+        <div class="row mt-3">
+            <div class="col-12 ml-1">
+                <span style="color: #3e3ed9;">
+                    {% if search_query %}
+                        {% if search_query|length > 15 %}
+                            Results of searching «{{ search_query|slice:15|add:'...' }}»
+                        {% else %}
+                            Results of searching «{{ search_query}}»
+                        {% endif %}
+                    {% else %}
+                        Sorted by «{{ sorted_by }}»
+                    {% endif %}
+                </span>
+                <a style="color: #cf2d2d;" href="{% url 'gallery:home' %}">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+    <hr>
+    <div class="row">
+    {% for pet in object_list %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card my-3">
+            {% if pet.petphoto_set.all|length > 1 %}
+                <div
+                    id="carouselControls-{{ forloop.counter }}"
+                    class="card-img-top carousel slide" data-ride="carousel"
+                >
+                    <div class="carousel-inner">
+                        {% for photo in pet.petphoto_set.all %}
+                            <div
+                                class="carousel-item card-img-top {% if forloop.counter == 1 %}active{% endif %}"
+                                style="background-image: url({{ photo.image.url }})"
+                            ></div>
+                        {% endfor %}
+                    </div>
+                    <a
+                        class="carousel-control-prev" data-slide="prev"
+                        href="#carouselControls-{{ forloop.counter }}"
+                    >
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a
+                        class="carousel-control-next" data-slide="next"
+                        href="#carouselControls-{{ forloop.counter }}"
+                    >
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            {% elif pet.petphoto_set.all|length == 1 %}
+                <div
+                    class="card-img-top"
+                    style="background-image: url({{ pet.petphoto_set.first.image.url }})"
+                ></div>
+            {% else %}
+                <div
+                    class="card-img-top"
+                    style="background-color: #666"
+                ></div>
+            {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ pet.name }}</h5>
+                    <p class="card-text">{{ pet.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {{ pet.category|title }},
+                        {{ pet.gender|title }}
+                    </li>
+                    <li class="list-group-item">
+                        {{ pet.age }} years
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="{{ pet.get_absolute_url }}" class="card-link">
+                        <button class="btn btn-light w-100" title="Show pet page">
+                            Open
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    {% if page_obj.has_other_pages %}
+    <div class="row">
+        <nav class="col-12 mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                    {% if page_obj.has_previous %}
+                        <a class="page-link btn" href="?page={{ page_obj.previous_page_number }}">
+                            Previous
+                        </a>
+                    {% else %}
+                        <a class="page-link btn ml-1" href="">Previous</a>
+                    {% endif %}
+                </li>
+
+                {% for n in page_obj.paginator.page_range %}
+                    {% if page_obj.number == n %}
+                        <li class="page-item active">
+                            <a class="page-link btn ml-1" href="?page={{ n }}">{{ n }}</a>
+                        </li>
+                    {% elif n > page_obj.number|add:-3 and n < page_obj.number|add:3 %}
+                        <li class="page-item">
+                            <a class="page-link btn ml-1" href="?page={{ n }}">{{ n }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                    {% if page_obj.has_next %}
+                        <a class="page-link btn ml-1" href="?page={{ page_obj.next_page_number }}">
+                            Next
+                        </a>
+                    {% else %}
+                        <a class="page-link btn ml-1" href="">Next</a>
+                    {% endif %}
+                </li>
+          </ul>
+        </nav>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/pet_list.js' %}"></script>
+{% endblock %}
