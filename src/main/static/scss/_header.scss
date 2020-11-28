@@ -153,6 +153,9 @@
 	@include xl {
 		background-color: rgba(#000, 0.85);
 	}
+	@include sm {
+		overflow-y: scroll;
+	}
 }
 
 // Sidemenu preview style
