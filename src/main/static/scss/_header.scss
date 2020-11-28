@@ -99,7 +99,7 @@
 			grid-template-columns: 1fr;
 		}
 		@include sm {
-			padding: 8vw 12vw;
+			padding: calc(var(--vh, 1vh) * 4.8) 12vw;
 		}
 	}
 	.nav {
@@ -128,7 +128,7 @@
 				color: #fc784f;
 			}
 			@include sm {
-				height: 25vh;
+				height: calc(var(--vh, 1vh) * 25);
 			}
 		}
 		&__link {
@@ -152,9 +152,6 @@
 	}
 	@include xl {
 		background-color: rgba(#000, 0.85);
-	}
-	@include sm {
-		overflow-y: scroll;
 	}
 }
 

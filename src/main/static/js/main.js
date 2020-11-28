@@ -1,5 +1,7 @@
 'use strict';
 
+configHeight();
+
 let supportsPassive = false;
 try {
 	window.addEventListener(
@@ -96,6 +98,13 @@ function addSideMenuEvents() {
 	);
 }
 
+function configHeight() {
+	const vh = window.innerHeight * 0.01;
+	document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
 document.addEventListener('DOMContentLoaded', _ => {
 	addSideMenuEvents();
 });
+
+window.addEventListener('resize', configHeight);
