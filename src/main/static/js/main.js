@@ -4,107 +4,107 @@ configHeight();
 
 let supportsPassive = false;
 try {
-	window.addEventListener(
-		'test',
-		null,
-		Object.defineProperty({}, 'passive', {
-			get: _ => {
-				supportsPassive = true;
-			},
-		})
-	);
+    window.addEventListener(
+        'test',
+        null,
+        Object.defineProperty({}, 'passive', {
+            get: _ => {
+                supportsPassive = true;
+            },
+        })
+    );
 } catch (e) {}
 
 let wheelOpt = supportsPassive ? { passive: false } : false;
 
 function preventDefault(e) {
-	e.preventDefault();
+    e.preventDefault();
 }
 
 function preventDefaultForScrollKeys(e) {
-	const keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-	if (keys[e.keyCode]) {
-		preventDefault(e);
-		return false;
-	}
+    const keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
 }
 
 function disableScroll() {
-	window.addEventListener('DOMMouseScroll', preventDefault, false);
-	window.addEventListener('mousewheel', preventDefault, wheelOpt);
-	window.addEventListener('touchmove', preventDefault, wheelOpt);
-	window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+    window.addEventListener('DOMMouseScroll', preventDefault, false);
+    window.addEventListener('mousewheel', preventDefault, wheelOpt);
+    window.addEventListener('touchmove', preventDefault, wheelOpt);
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
 function enableScroll() {
-	window.removeEventListener('DOMMouseScroll', preventDefault, false);
-	window.removeEventListener('mousewheel', preventDefault, wheelOpt);
-	window.removeEventListener('touchmove', preventDefault, wheelOpt);
-	window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener('mousewheel', preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
 function addSideMenuEvents() {
-	const navbarButToggler = document.querySelector('.navbar-toggler');
-	const sideMenu = document.querySelector('.sidemenu');
-	const sideMenuLinks = document.querySelectorAll('.sidemenu .nav__item');
+    const navbarButToggler = document.querySelector('.navbar-toggler');
+    const sideMenu = document.querySelector('.sidemenu');
+    const sideMenuLinks = document.querySelectorAll('.sidemenu .nav__item');
 
-	const sideMenuEasing = 'easeInOutSine';
-	const sideMenuDuration = 500;
+    const sideMenuEasing = 'easeInOutSine';
+    const sideMenuDuration = 500;
 
-	const previewImgs = document.querySelectorAll(`.preview-box div`);
-	const tabs = ['Home', 'Animals', 'About'];
+    const previewImgs = document.querySelectorAll(`.preview-box div`);
+    const tabs = ['Home', 'Animals', 'About'];
 
-	navbarButToggler.addEventListener('click', _ => {
-		navbarButToggler.classList.toggle('toggled');
-		if (navbarButToggler.classList.contains('toggled')) {
-			anime({
-				targets: sideMenu,
-				translateX: '100vw',
-				easing: sideMenuEasing,
-				duration: sideMenuDuration,
-			});
-			disableScroll();
-		} else {
-			anime({
-				targets: sideMenu,
-				translateX: '0',
-				easing: sideMenuEasing,
-				duration: sideMenuDuration,
-			});
-			enableScroll();
-		}
-	});
+    navbarButToggler.addEventListener('click', _ => {
+        navbarButToggler.classList.toggle('toggled');
+        if (navbarButToggler.classList.contains('toggled')) {
+            anime({
+                targets: sideMenu,
+                translateX: '100vw',
+                easing: sideMenuEasing,
+                duration: sideMenuDuration,
+            });
+            disableScroll();
+        } else {
+            anime({
+                targets: sideMenu,
+                translateX: '0',
+                easing: sideMenuEasing,
+                duration: sideMenuDuration,
+            });
+            enableScroll();
+        }
+    });
 
-	const showCurrPreviewImg = idx => {
-		previewImgs.forEach(img => {
-			img.style.display = 'none';
-		});
-		previewImgs[idx].style.display = 'block';
-	};
+    const showCurrPreviewImg = idx => {
+        previewImgs.forEach(img => {
+            img.style.display = 'none';
+        });
+        previewImgs[idx].style.display = 'block';
+    };
 
-	sideMenuLinks.forEach((item, idx) => {
-		item.addEventListener('mouseenter', _ => {
-			showCurrPreviewImg(idx);
-			anime({
-				targets: previewImgs[idx],
-				translateY: [-500, 0],
-				duration: 1000,
-			});
-		});
-	});
+    sideMenuLinks.forEach((item, idx) => {
+        item.addEventListener('mouseenter', _ => {
+            showCurrPreviewImg(idx);
+            anime({
+                targets: previewImgs[idx],
+                translateY: [-500, 0],
+                duration: 1000,
+            });
+        });
+    });
 
-	showCurrPreviewImg(
-		tabs.indexOf(document.querySelector('title').textContent.trim())
-	);
+    showCurrPreviewImg(
+        tabs.indexOf(document.querySelector('title').textContent.trim())
+    );
 }
 
 function configHeight() {
-	const vh = window.innerHeight * 0.01;
-	document.documentElement.style.setProperty('--vh', `${vh}px`);
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
 document.addEventListener('DOMContentLoaded', _ => {
-	addSideMenuEvents();
+    addSideMenuEvents();
 });
 
 window.addEventListener('resize', configHeight);

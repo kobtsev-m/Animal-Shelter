@@ -2,14 +2,14 @@
 @import './base/variables';
 
 .about-title {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 15em;
-	@include cover-background;
-	svg path {
-		fill: none;
-		stroke: #fff;
-		stroke-width: 1.5px;
-	}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 15em;
+  @include cover-background;
+  svg path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
 }
